@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941edbad390b75f409b5c6c70d03e82b, type: 3}
+  m_Name: Table_Enemys
+  m_EditorClassIdentifier: 
+  Enemys:
+  - Id: 1
+    Attack: 10
+    Defence: 0
+    Speed: 2
+    Hp: 10
+    Name: TestEnemy1
+    Path: Prefabs/Enemys/TestEnemy1
+  - Id: 2
+    Attack: 10
+    Defence: 0
+    Speed: 3
+    Hp: 12
+    Name: TestEnemy2
+    Path: Prefabs/Enemys/TestEnemy2
+  - Id: 3
+    Attack: 15
+    Defence: 10
+    Speed: 2
+    Hp: 20
+    Name: TestEnemy3
+    Path: Prefabs/Enemys/TestEnemy3

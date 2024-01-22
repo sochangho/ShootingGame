@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class BaseObject : MonoBehaviour
 {
-
-
+    public GameObjectType GameObjectType { get; private set; }
+    
     private void Awake()
     {
         Created();

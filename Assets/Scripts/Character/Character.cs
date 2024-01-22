@@ -4,99 +4,81 @@ using UnityEngine;
 using System;
 public abstract class Character : BaseObject
 {
+    public string CharacterName { get; private set; }
 
-    public CharaterInfo CharaterInfo { get;  private set; }
+    public CharaterInfo CharaterInfo { get;  protected set; }
 
-    public Attack attack;
 
-    public event Action<float> AttactedEvent;  // attacked Event
+    public Animator CharacterAnimator;
 
 
     #region Override & Virtual
     override public void Created()
     {
-        
-        string objName = this.gameObject.name;        
-        objName.Replace("(Clone)", "");
-
-        //TODO : 수정필요 테이블 만든 후  InfoManager 만든 후 수정! 
-        CharaterInfo = new CharaterInfo(objName, 10, 100, 2, 100);
-        //
-
-        attack = GetComponent<Attack>();
-
-        if (attack != null)
-        {
-            attack.Set(CharaterInfo.CharacterAbility.Attack);
-        }
-
-
-        Debug.Log($"{CharaterInfo.CharacterName}  생성");
+        CharacterName = this.gameObject.name.Replace("(Clone)","");                
+        Debug.Log($"{CharacterName}  생성");
 
     }
 
     override public void Destroyed()
     {
-        Debug.Log($"{CharaterInfo.CharacterName}  파괴");
+        Debug.Log($"{CharacterName}  파괴");
 
     }
     
     override public void Active(){
 
-        Debug.Log($"{CharaterInfo.CharacterName}  활성");
+        Debug.Log($"{CharacterName}  활성");
 
     }
 
     override public void InActive(){
 
-        Debug.Log($"{CharaterInfo.CharacterName}  비활성");
+        Debug.Log($"{CharacterName}  비활성");
 
     }
 
-
-    virtual public float AttackedCalculate(float damage)
+    virtual protected void AniWalk(bool isWalk)
     {
-        float curHp = CharaterInfo.CharacterStatus.HpCurrent - damage;
+        CharacterAnimator.SetBool("IsWalk",isWalk);
+    }
 
-        if (curHp < 0)
-        {
-            CharaterInfo.CharacterStatus.HpCurrent = 0;
-        }
-        else 
-        {
-            CharaterInfo.CharacterStatus.HpCurrent = curHp;
-        }
+    virtual protected void AniAttack()
+    {
+        CharacterAnimator.SetTrigger("Attack");
+    }
 
-        return CharaterInfo.CharacterStatus.HpCurrent;
+    virtual public void Attack()
+    {
+        AniAttack();
+    }
+
+    virtual public void Walk(bool isWalk)
+    {
+        AniWalk(isWalk);
     }
 
     #endregion
 
     private void Update()
     {
-        Move();
+        CharacterUpdate();
     }
 
 
     #region abstract
 
-    abstract public void Move();
+    abstract public void CharacterUpdate();
 
+    abstract public void DirectionUpdate(Vector3 direction);
+
+    abstract public void Die();
   
     #endregion
 
 
 
-    #region public 
 
-    public void Attacked(float damage)
-    {
-        float result =  AttackedCalculate(damage);
-        AttactedEvent?.Invoke(result);
-    }
-
-
-    #endregion
 
 
 }
