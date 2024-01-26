@@ -57,8 +57,7 @@ public class AttackVirtualJoystick : VirtualJoystick
     override public void PointerUp(PointerEventData eventData)
     {
         // АјАн
-
-        GameRoopController.Instance.player.Attack();
+        GameScene.Instance.GameRoopController.player.Attack();
 
         StartCoroutine(AttackDelayRoutin());
         joystickContorller.rectTransform.anchoredPosition = Vector2.zero;

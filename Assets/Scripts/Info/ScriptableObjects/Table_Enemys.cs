@@ -10,12 +10,27 @@ public class Table_Enemys : ScriptableObject,IData
     public class EnemyData
     {
         public int Id;
-        public float Attack;
-        public float Defence;
-        public float Speed;
-        public float Hp;
+        
         public string Name;
-        public string Path;
+
+        public float Attack;
+        
+        public float Defence;
+        
+        public float Speed;
+        
+        public float Hp;
+
+        public int Capacity;
+
+
+        public int Shot_Id;
+
+        public float Shot_Duration;
+
+        public float Shot_Spped;
+
+
     }
 
     public List<EnemyData> Enemys; // Replace 'EntityType' to an actual type that is serializable.

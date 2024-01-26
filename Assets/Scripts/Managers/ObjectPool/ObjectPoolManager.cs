@@ -17,19 +17,14 @@ public enum GameObjectType
 }
 
 
-public class ObjectPoolManager : MonoBehaviourSingletonPersistent<ObjectPoolManager>
+public class ObjectPoolManager : MonoBehaviour , IGameloop
 {
     
     public Dictionary<int, ObjectPool>[] Dic_ObjectPool { get; private set;} // Key Pid , Value ObjectPool
 
     private GameEvents gameEvents = new GameEvents();
 
-    public override void Awake()
-    {
-        base.Awake();
 
-
-    }
 
     public void GameStart()
     {
@@ -91,14 +86,14 @@ public class ObjectPoolManager : MonoBehaviourSingletonPersistent<ObjectPoolMana
 
 
 
-    public GameObject UseObject(GameObjectType gameObjectType, int id, Vector3 postion)
+    public GameObject UseObject(GameObjectType gameObjectType, int id, Vector3 postion )
     {
         var dic =  Dic_ObjectPool[(int)gameObjectType];
 
         if (!dic.ContainsKey(id))
         {
-            int capacity = GetCapacityByIdAndGameObjectType(gameObjectType, id, GameRoopController.Instance.CurrentStage);
-            dic.Add(id, ObjectPoolFactory(gameObjectType, id, capacity));
+            
+            dic.Add(id, ObjectPoolFactory(gameObjectType, id));
 
         }
 
@@ -119,9 +114,7 @@ public class ObjectPoolManager : MonoBehaviourSingletonPersistent<ObjectPoolMana
         if (!dic.ContainsKey(id))
         {
 
-            int capacity = GetCapacityByIdAndGameObjectType(gameObjectType, id, GameRoopController.Instance.CurrentStage);
-
-            dic.Add(id, ObjectPoolFactory(gameObjectType , id ,capacity));
+            return;
 
         }
 
@@ -131,11 +124,11 @@ public class ObjectPoolManager : MonoBehaviourSingletonPersistent<ObjectPoolMana
 
 
     
-    public ObjectPool ObjectPoolFactory(GameObjectType gameObjectType, int id, int capacity)
+    public ObjectPool ObjectPoolFactory(GameObjectType gameObjectType, int id)
     {
         ObjectPool objectPool = new ObjectPool();
 
-        objectPool.Set(gameObjectType, id, capacity);
+        objectPool.Set(gameObjectType, id);
 
         return objectPool;
     }
@@ -182,28 +175,36 @@ public class ObjectPool
     private string path; 
 
 
-    private Stack<GameObject> stack_GameObject = new Stack<GameObject>();
+    private Stack<GameObject> stack_GameObject = new Stack<GameObject>(); //
+
+    private List<GameObject> using_GameObject = new List<GameObject>();
 
     #endregion
 
-    public void Set(GameObjectType gameObjectType, int id, int capacity)
+    public void Set(GameObjectType gameObjectType, int id)
     {
         GameObjectType = gameObjectType;
         
         Id = id;
-
-        Capacity = capacity;
-        
+                
         switch (gameObjectType)
         {
             case GameObjectType.Enemy:
-                {
-                    var data =  InfoManager.Instance.TableEnemys.GetData(id);
+            {
+               var data =  InfoManager.Instance.TableEnemys.GetData(id);
+               path = $"{PathString.PREFAB_ENEMY}/{data.Name}";
+               Capacity = data.Capacity;
+               break;
+            }
+            case GameObjectType.Projectile:
+            {
+               var data = InfoManager.Instance.TableShot.GetInfoById(id);
+               path = $"{PathString.PREFAB_PROJECTILE}/{data.Shot_Name}";
+               Capacity = data.Shot_Capacity;
 
-                    path = data.Path;
+               break;
+            }
 
-                    break;
-                }
 
         }
 
@@ -215,7 +216,7 @@ public class ObjectPool
     {
         GameObject clone = null;
 
-        if(stack_GameObject.Count < Capacity)
+        if(stack_GameObject.Count + using_GameObject.Count  < Capacity)
         {
            var go =  ResourceManager.Load<GameObject>(AssetType.Prefab , path);
            clone = GameObject.Instantiate(go);
@@ -223,11 +224,22 @@ public class ObjectPool
         }
         else
         {
-           clone =  stack_GameObject.Pop();
+
+            if (stack_GameObject.Count > 0)
+            {
+                clone = stack_GameObject.Pop();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         clone.SetActive(true);
         clone.transform.localPosition = position;
+
+        using_GameObject.Add(clone);
+        
         return clone;
     }
 
@@ -236,12 +248,11 @@ public class ObjectPool
     public void UnUseObject(GameObject gameObject)
     {
 
-        if(stack_GameObject.Count >= Capacity)
-        {
-            GameObject.Destroy(gameObject);
-        }
-
         gameObject.SetActive(false);
+
+        var index = using_GameObject.FindIndex(x => int.Equals(x.GetInstanceID() , gameObject.GetInstanceID()));
+
+        using_GameObject.RemoveAt(index);
 
         stack_GameObject.Push(gameObject);
 
@@ -249,14 +260,20 @@ public class ObjectPool
 
     public void AllDelete()
     {
+        for(int i =  using_GameObject.Count - 1;  i >= 0; --i)
+        {
+            stack_GameObject.Push(using_GameObject[i]);
+
+            using_GameObject.RemoveAt(i);   
+        }
+
+        
 
         while(stack_GameObject.Count > 0)
         {
             var go = stack_GameObject.Pop();
             GameObject.Destroy(go);
         }
-
-
     }
 
 

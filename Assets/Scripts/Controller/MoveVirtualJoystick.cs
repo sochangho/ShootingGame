@@ -8,10 +8,11 @@ public class MoveVirtualJoystick : VirtualJoystick
     override public void PointerDown(PointerEventData eventData)
     {
 
-        GameRoopController.Instance.player.IsVirtualMoveControl = true;
-        GameRoopController.Instance.player.Walk(true);
+        GameScene.Instance.GameRoopController.player.IsVirtualMoveControl = true;
+        GameScene.Instance.GameRoopController.player.Walk(true);
 
     }
+
     override public void PointerDrag(PointerEventData eventData)
     {
 
@@ -44,15 +45,14 @@ public class MoveVirtualJoystick : VirtualJoystick
 
 
         }
-
-
-
     }
+
+
     override public void PointerUp(PointerEventData eventData)
     {
 
-        GameRoopController.Instance.player.IsVirtualMoveControl = false;
-        GameRoopController.Instance.player.Walk(false);
+        GameScene.Instance.GameRoopController.player.IsVirtualMoveControl = false;
+        GameScene.Instance.GameRoopController.player.Walk(false);
         joystickContorller.rectTransform.anchoredPosition = Vector2.zero;
 
     }

@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class InfoManager : MonoBehaviourSingletonPersistent<InfoManager>
 {
+
+    
+
     public Test Info_Test { get; private set; } 
     public Table_Enemys TableEnemys { get; private set; }
-
     public Table_Stage TableStage { get; private set; }
+    public Table_Player TablePlayer { get; private set; }
+    public Table_Shot TableShot { get; private set; }
+
+
 
     public override void Awake()
     {
@@ -29,9 +35,18 @@ public class InfoManager : MonoBehaviourSingletonPersistent<InfoManager>
        TableStage = ResourceManager.LoadData<Table_Stage>();
        TableStage.Set();
 
-       
+       TablePlayer = ResourceManager.LoadData<Table_Player>();
+       TablePlayer.Set();
+
+       TableShot = ResourceManager.LoadData<Table_Shot>();
+       TableShot.Set();
+
     }
 
+    public int GetCurrentPlayerCharacterID() 
+    {
+        return 1;
+    }
 
 
 }

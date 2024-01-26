@@ -39,13 +39,16 @@ public class Table_Stage : ScriptableObject
 		for (int i = 0; i < StageInfos.Count; ++i)
 		{
 			var info = StageInfos[i];
-			var list = data[info.Stage, info.GameObjectType];
+			
+			if (data[info.Stage, info.GameObjectType] == null)
+			{
+				data[info.Stage, info.GameObjectType] = new List<StageInfo>();
+			}
 
-			if (list == null)
-				list = new List<StageInfo>();
-
-			list.Add(info);
+			data[info.Stage, info.GameObjectType].Add(info);
 		}
+
+		Debug.Log(data);
 	}
 
 	public void Reales()

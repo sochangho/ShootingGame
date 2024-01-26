@@ -10,8 +10,12 @@ public class ObjectPooling : MonoBehaviour
 
     public void Destroy()
     {
-        ObjectPoolManager.Instance.UnUseObject(this);
+        Debug.Log($"<color=green>  Object Pooling {Id} , {Type}  </color>");
+
+        GameScene.Instance.ObjectPoolManager.UnUseObject(this);
     }
+
+    
 
     public void Set(int id , GameObjectType type)
     {

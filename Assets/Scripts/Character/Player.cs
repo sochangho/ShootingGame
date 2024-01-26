@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Character
+public partial class Player : Character
 {
+    [SerializeField]
+    private Transform shotStartPoint;
+
     private MoveVirtualJoystick virtualJoystickMove;
 
     private AttackVirtualJoystick attackVirtualJoystick;
 
-
+    
     public bool IsVirtualMoveControl {get;set;}
+
+
+    #region Base
 
     override public void Created() { 
         base.Created();
@@ -23,15 +29,54 @@ public class Player : Character
 
     override public void InActive() { base.InActive(); }
 
+    #endregion
+
+
+    #region Override
+
+    public override void CharacterCreated(int id)
+    {
+        var d = InfoManager.Instance.TablePlayer.GetInfoById(id);
+
+        if (characterInfo == null)
+        {
+            characterInfo = new PlayerInfo();
+            characterInfo.SetInfo(d);
+        }
+        if (baseAttack == null)
+        {
+            baseAttack = new ShotAttack(characterInfo);
+        }
+        if (baseAttacked == null)
+        {
+            baseAttacked = new BaseAttacked(characterInfo);
+            baseAttacked.ResisterObserver(this);
+        }
+
+    }
+
     public override void CharacterUpdate()
     {
+        MovePlayer();    
+    }
 
-        MovePlayer();
-    
+    public override Vector3 GetAimDirection()
+    {
+        return new Vector3(attackVirtualJoystick.GetX, 0, attackVirtualJoystick.GetY).normalized ;
+    }
+
+
+    public override Vector3 GetShotStartPos()
+    {
+        return shotStartPoint.position;
     }
 
     public void MovePlayer()
     {
+        if (isDie)
+        {
+            return;
+        }
 
         if (!IsVirtualMoveControl)
         {
@@ -42,19 +87,32 @@ public class Player : Character
         VirtualJoystickRotation();
     }
 
-    public override void DirectionUpdate(Vector3 direction)
-    {
- 
-    }
 
     
     public override void Die()
     {
+        isDie = true;
+        CharacterAnimator.SetTrigger("Die");
+    }
+
+    public override void DieAnimationEvent()
+    {
         
     }
 
+    public override void UpdataData(object data)
+    {
+        base.UpdataData(data);
+    }
 
-    #region PlayerController
+    #endregion
+
+}
+
+
+
+public partial class Player : Character
+{
 
     public void InputKeyMove()
     {
@@ -62,14 +120,14 @@ public class Player : Character
 
         float v = Input.GetAxis("Vertical");
 
-         
+
         Vector3 dir = new Vector3(h, 0, v) * -1;
         dir = dir.normalized;
 
         if (dir != Vector3.zero)
         {
 
-            transform.position += dir * 10 * Time.deltaTime;
+            transform.position += dir * characterInfo.Speed * Time.deltaTime;
 
             InputKeyRotation(dir);
 
@@ -84,7 +142,7 @@ public class Player : Character
         {
             dir = new Vector3(attackVirtualJoystick.GetX, 0, attackVirtualJoystick.GetY).normalized;
         }
-       
+
 
         PlayerRotation(dir);
     }
@@ -97,9 +155,8 @@ public class Player : Character
         }
 
         Vector3 dir = new Vector3(virtualJoystickMove.GetX, 0, virtualJoystickMove.GetY) * -1;
-        transform.position += dir * 10 * Time.deltaTime;
+        transform.position += dir * characterInfo.Speed * Time.deltaTime;
 
-       
     }
 
     public void VirtualJoystickRotation()
@@ -108,7 +165,7 @@ public class Player : Character
 
         if (attackVirtualJoystick.IsAiming)
         {
-            dir = new Vector3(attackVirtualJoystick.GetX, 0, attackVirtualJoystick.GetY).normalized;
+            dir = GetAimDirection();
             PlayerRotation(dir);
         }
         else
@@ -128,7 +185,7 @@ public class Player : Character
     }
 
 
-    
 
-    #endregion
+
+
 }

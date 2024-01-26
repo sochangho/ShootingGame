@@ -70,7 +70,7 @@ public class ResourceManager
     {
         T load = default(T);
 
-        if (dicResources[(int)AssetType.Data].ContainsKey(resourcespath))
+        if (dicResources[(int)assetType].ContainsKey(resourcespath))
         {
             load = (T)dicResources[(int)assetType][resourcespath];
 
@@ -101,6 +101,9 @@ public class PathString
 {
     public const string TABLE = "Resources/Tables";
     public const string PREFAB_PLAYER = "Prefabs/Character/Players";
+    public const string PREFAB_PROJECTILE = "Prefabs/Projectile";
+    public const string PREFAB_ENEMY = "Prefabs/Character/Enemys";
+
 
 }
 

@@ -14,23 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemys:
   - Id: 1
-    Attack: 10
-    Defence: 0
-    Speed: 2
-    Hp: 10
     Name: TestEnemy1
-    Path: Prefabs/Enemys/TestEnemy1
-  - Id: 2
     Attack: 10
-    Defence: 0
-    Speed: 3
-    Hp: 12
-    Name: TestEnemy2
-    Path: Prefabs/Enemys/TestEnemy2
-  - Id: 3
-    Attack: 15
     Defence: 10
     Speed: 2
-    Hp: 20
+    Hp: 50
+    Capacity: 20
+    Shot_Id: 0
+    Shot_Duration: 0
+    Shot_Spped: 0
+  - Id: 2
+    Name: TestEnemy2
+    Attack: 20
+    Defence: 20
+    Speed: 2
+    Hp: 200
+    Capacity: 0
+    Shot_Id: 0
+    Shot_Duration: 0
+    Shot_Spped: 0
+  - Id: 3
     Name: TestEnemy3
-    Path: Prefabs/Enemys/TestEnemy3
+    Attack: 30
+    Defence: 30
+    Speed: 2
+    Hp: 300
+    Capacity: 0
+    Shot_Id: 0
+    Shot_Duration: 0
+    Shot_Spped: 0

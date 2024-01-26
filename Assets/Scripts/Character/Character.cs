@@ -2,22 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public abstract class Character : BaseObject
+public abstract class Character : BaseObject , IObserver
 {
     public string CharacterName { get; private set; }
 
-    public CharaterInfo CharaterInfo { get;  protected set; }
-
-
     public Animator CharacterAnimator;
+
+    public CharacterInfo characterInfo;
+
+    public BaseAttack baseAttack { get; protected set; }
+
+    public BaseAttacked baseAttacked { get; protected set; }
+
+    protected bool isDie = false;
 
 
     #region Override & Virtual
     override public void Created()
     {
-        CharacterName = this.gameObject.name.Replace("(Clone)","");                
+        CharacterName = this.gameObject.name.Replace("(Clone)","");
+        
         Debug.Log($"{CharacterName}  »ý¼º");
-
     }
 
     override public void Destroyed()
@@ -45,6 +50,10 @@ public abstract class Character : BaseObject
 
     virtual protected void AniAttack()
     {
+        if(CharacterAnimator == null)
+        {
+            return;
+        }
         CharacterAnimator.SetTrigger("Attack");
     }
 
@@ -53,10 +62,24 @@ public abstract class Character : BaseObject
         AniAttack();
     }
 
+    virtual public void Attacked(float attack)
+    {
+
+        if(baseAttacked == null)
+        {
+            baseAttacked = new BaseAttacked(characterInfo);
+        }
+
+        baseAttacked.Attacked(attack);
+    }
+
+
     virtual public void Walk(bool isWalk)
     {
         AniWalk(isWalk);
     }
+
+    
 
     #endregion
 
@@ -68,16 +91,37 @@ public abstract class Character : BaseObject
 
     #region abstract
 
+    abstract public void CharacterCreated(int id);
+
     abstract public void CharacterUpdate();
 
-    abstract public void DirectionUpdate(Vector3 direction);
-
     abstract public void Die();
-  
+
+    abstract public Vector3 GetAimDirection();
+
+    abstract public Vector3 GetShotStartPos();
+
     #endregion
 
 
+    virtual public void AttackAnimationEvent()
+    {
+        if (baseAttack != null)
+        {
+            baseAttack.Attack(GetAimDirection(), GetShotStartPos());
+        }
+    }
 
+    virtual public void DieAnimationEvent() { }
+
+    virtual public void UpdataData(object data)
+    {
+        if(characterInfo.CurrHp == 0)
+        {
+            Die();
+        }
+
+    }
 
 
 

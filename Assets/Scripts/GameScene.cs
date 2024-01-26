@@ -8,39 +8,54 @@ using UnityEngine;
 /// <summary>
 /// 利 积己 困摹 棺 酒捞袍 积己 包府 
 /// </summary>
-public class GameScene : MonoBehaviour , IGameloop
+public class GameScene : MonoBehaviourSingletonPersistent<GameScene> , IGameloop
 {
+
+    public ObjectPoolManager ObjectPoolManager;
+    public GameRoopController GameRoopController;
 
     
 
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
         GameStart();
-
     }
 
 
     public void GameStart()
     {
         AddEvents();
-        ObjectPoolManager.Instance.GameStart();
-        GameRoopController.Instance.GameStart(); 
+
+        StartCoroutine(DelayRoutin(() =>
+        {
+            ObjectPoolManager.GameStart();
+            GameRoopController.GameStart();
+
+        }));
+
     }
 
     public void GameEnd()
     {
-        ObjectPoolManager.Instance.GameEnd();
-        GameRoopController.Instance.GameEnd();
+        ObjectPoolManager.GameEnd();
+        GameRoopController.GameEnd();
     }
 
     public void AddEvents()
     {
-        ObjectPoolManager.Instance.AddEvents();
-        GameRoopController.Instance.AddEvents();
+        ObjectPoolManager.AddEvents();
+        GameRoopController.AddEvents();
     }
 
 
+    IEnumerator DelayRoutin(System.Action action)
+    {
+        yield return new WaitUntil(() => { return InfoManager.Instance != null; });
 
+        action?.Invoke();
+       
+    }
 
 }
 

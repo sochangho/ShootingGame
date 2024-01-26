@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class BaseObject : MonoBehaviour
 {
-    public GameObjectType GameObjectType { get; private set; }
+    public GameObjectType GameObjectType { get; protected set; }
     
     private void Awake()
     {
