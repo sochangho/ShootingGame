@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6993958921792507766}
   - component: {fileID: 3547678092332460836}
   - component: {fileID: 1079194114988335526}
+  - component: {fileID: -6569125208296051390}
   m_Layer: 9
   m_Name: Robot
   m_TagString: Player
@@ -70,6 +71,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &-6569125208296051390
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2150687523422614194}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.8205, z: 1}
+  m_Center: {x: 0, y: 0.9102504, z: 0}
 --- !u!1 &2507654825361148337
 GameObject:
   m_ObjectHideFlags: 0

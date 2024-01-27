@@ -103,11 +103,11 @@ public class EnemyInfo : CharacterInfo
         this.Speed = d.Speed;
         this.Hp = d.Hp;
 
-        //this.Shot_Id = d.Shot_Id;
+        this.Shot_Id = d.Shot_Id;
 
-        //this.Shot_Duration = d.Shot_Duration;
+        this.Shot_Duration = d.Shot_Duration;
 
-        //this.Shot_Speed = d.Shot_Spped;
+        this.Shot_Speed = d.Shot_Spped;
 
         CurrHp = Hp;
 
@@ -124,11 +124,11 @@ public class EnemyInfo : CharacterInfo
         this.Hp = d.Hp;
 
 
-        //this.Shot_Id = d.Shot_Id;
+        this.Shot_Id = d.Shot_Id;
 
-        //this.Shot_Duration = d.Shot_Duration;
+        this.Shot_Duration = d.Shot_Duration;
 
-        //this.Shot_Speed = d.Shot_Spped;
+        this.Shot_Speed = d.Shot_Spped;
 
         CurrHp = Hp;
     }

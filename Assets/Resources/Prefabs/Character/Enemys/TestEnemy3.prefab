@@ -70,7 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterAnimator: {fileID: 0}
   detectDistance: 10
-  attackDistacne: 2
+  attackDistacne: 1
 --- !u!1 &8458045800833174531
 GameObject:
   m_ObjectHideFlags: 0

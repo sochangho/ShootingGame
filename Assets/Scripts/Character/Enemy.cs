@@ -39,10 +39,11 @@ public partial class  Enemy : Character
     private float attackDistacne;
     #endregion
 
+    private Coroutine corutineAI;
+
     override public void Created()
     { 
         base.Created();
-
 
     }
 
@@ -65,7 +66,7 @@ public partial class  Enemy : Character
             characterInfo.RefreshInfo(); 
         }
 
-         StartCoroutine(EnemyAIUpdata());
+        corutineAI = StartCoroutine(EnemyAIUpdata());
              
     }
 
@@ -101,7 +102,7 @@ public partial class  Enemy : Character
 
         if (baseAttack == null)
         {
-            baseAttack = ClassFactory.GetClassInstanceAIAttack("AIClosedAttack");
+            baseAttack = ClassFactory.GetClassInstanceAIAttack("AIShotAttack");
             var at = (AICharacterAttack)baseAttack;
             at.Set(this);            
         }
@@ -110,6 +111,14 @@ public partial class  Enemy : Character
         {
             baseAttacked = new BaseAttacked(characterInfo);
             baseAttacked.ResisterObserver(this);
+        }
+
+        if(navMeshAgent == null)
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+
+            navMeshAgent.speed = characterInfo.Speed;
+
         }
 
     }
@@ -206,6 +215,23 @@ public partial class  Enemy : Character
 public partial class Enemy : Character
 {
 
+    public event System.Action<Character,Character> EventIdle;
+
+    public event System.Action<Character,Character> EventTrace;
+
+    public event System.Action<Character,Character> EventAttack;
+
+    private AIDelay aIDelay;
+
+    public void SetAIDelay(AIDelay aIDelay)
+    {
+        this.aIDelay = aIDelay;
+
+    }
+
+
+
+
     IEnumerator EnemyAIUpdata()
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f); // 0.1f 마다 업데이트 , 성능 상태에 따라 더 늘릴 수 있음
@@ -215,6 +241,8 @@ public partial class Enemy : Character
             if (enemyState == EnemyState.Idle)
             {
                 StateIdle();
+
+                
             }
             else if (enemyState == EnemyState.Trace)
             {
@@ -224,10 +252,10 @@ public partial class Enemy : Character
             else  // 공격 
             {
                 StateAttack();
+                
             }
-
-
-            yield return waitForSeconds;
+      
+            yield return null;
         }
 
     }
@@ -235,6 +263,14 @@ public partial class Enemy : Character
 
     public void StateIdle()
     {
+
+        if (EventIdle != null)
+        {
+            EventIdle.Invoke(player , this);
+            return;
+        }
+
+
         if (UtillMath.TwoPointClosed(this.transform.position, player.transform.position, detectDistance)) //this - player < distance -> true
         {
             enemyState = EnemyState.Trace;
@@ -247,6 +283,24 @@ public partial class Enemy : Character
 
     public void StateTrace()
     {
+        if(EventTrace != null)
+        {
+            EventTrace.Invoke(player, this);
+            return;
+        }
+
+        if (navMeshAgent == null)
+        {
+            navMeshAgent = GetComponent<NavMeshAgent>();
+        }
+
+
+        if (!navMeshAgent.enabled)
+        {
+            navMeshAgent.enabled = true;
+        }
+
+
         if (UtillMath.TwoPointClosed(this.transform.position, player.transform.position, attackDistacne))
         {
             enemyState = EnemyState.Attack;
@@ -256,10 +310,6 @@ public partial class Enemy : Character
             enemyState = EnemyState.Idle;
         }
 
-        if (navMeshAgent == null)
-        {
-            navMeshAgent = GetComponent<NavMeshAgent>();
-        }
 
         if (!navMeshAgent.pathPending)
         {
@@ -272,18 +322,43 @@ public partial class Enemy : Character
 
     public void StateAttack()
     {
-        //Attack(); 텀이 있어야할거같아
+        if (EventAttack != null)
+        {
+            EventAttack.Invoke(player, this);
+            
+            return;
+        }
+
+        if (navMeshAgent.enabled)
+        {
+            navMeshAgent.enabled = false;
+        }
 
         if (!UtillMath.TwoPointClosed(this.transform.position, player.transform.position, attackDistacne))
         {
-
             enemyState = EnemyState.Trace;
-
         }
+
+        
 
         Attack();
     }
 
+    public void AIRefresh()
+    {
+        StartCoroutine(RefreshAI());
+    }
 
-    
+    IEnumerator RefreshAI()
+    {
+        StopCoroutine(corutineAI);
+
+        yield return new WaitForSeconds(1f);
+
+
+        enemyState = EnemyState.Idle;
+        corutineAI =  StartCoroutine(EnemyAIUpdata());
+    }
+
+
 }

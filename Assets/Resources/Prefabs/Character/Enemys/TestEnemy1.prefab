@@ -71,8 +71,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterAnimator: {fileID: 6852501432688867405}
-  detectDistance: 10
-  attackDistacne: 2
+  detectDistance: 20
+  attackDistacne: 10
 --- !u!95 &6852501432688867405
 Animator:
   serializedVersion: 5
