@@ -4,16 +4,20 @@ using UnityEngine;
 using System;
 public abstract class Character : BaseObject , IObserver
 {
+
+    [SerializeField]
+    private CharacterStateUI characterStateUI;
+
     public string CharacterName { get; private set; }
 
     public Animator CharacterAnimator;
 
     public CharacterInfo characterInfo;
-
     public BaseAttack baseAttack { get; protected set; }
-
     public BaseAttacked baseAttacked { get; protected set; }
 
+
+    
     protected bool isDie = false;
 
 
@@ -21,8 +25,9 @@ public abstract class Character : BaseObject , IObserver
     override public void Created()
     {
         CharacterName = this.gameObject.name.Replace("(Clone)","");
-        
+
         Debug.Log($"{CharacterName}  »ý¼º");
+        
     }
 
     override public void Destroyed()
@@ -85,8 +90,9 @@ public abstract class Character : BaseObject , IObserver
 
     private void Update()
     {
-        CharacterUpdate();
+       CharacterUpdate();
     }
+
 
 
     #region abstract
@@ -123,6 +129,12 @@ public abstract class Character : BaseObject , IObserver
 
     }
 
+    public void ObserversResister()
+    {
+        characterStateUI.CharacterAttackedObserverResister(this);
+
+        characterStateUI.CharacterRefeshObserverResister(this);
+    }
 
 
 }

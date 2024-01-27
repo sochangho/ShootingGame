@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CharacterInfo
+public abstract class CharacterInfo : ISubject
 {
     public int Id { get; protected set; }
 
@@ -27,14 +27,37 @@ public abstract class CharacterInfo
     
     abstract public void RefreshInfo();
 
+    private List<IObserver> observers = new List<IObserver>();
 
 
-   
+    public void ResisterObserver(IObserver observer)
+    {
+        observers.Add(observer);
+    }
+
+
+
+    public void RemoveObserver(IObserver observer)
+    {
+        observers.Remove(observer);
+    }
+
+
+    public void NotifyObserver()
+    {
+        foreach (var o in observers)
+        {            
+            o.UpdataData(1.0f);
+        }
+
+    }
+
+
 }
 
 
 
-public class PlayerInfo : CharacterInfo
+public class PlayerInfo : CharacterInfo 
 {
  
    
@@ -42,7 +65,7 @@ public class PlayerInfo : CharacterInfo
 
     public int Shot_Count { get; protected set; }
 
-
+    
 
     public override void SetInfo(object data)
     {
@@ -61,6 +84,8 @@ public class PlayerInfo : CharacterInfo
         this.Shot_Id = d.Shot_Id;
 
         this.Shot_Speed = d.Shot_Spped;
+
+   
 
         CurrHp = Hp;
 
@@ -81,15 +106,20 @@ public class PlayerInfo : CharacterInfo
         this.Shot_Speed = d.Shot_Spped;
         CurrHp = Hp;
 
+
+        NotifyObserver();
     }
+
+
+
 
 
 }
 
 
-public class EnemyInfo : CharacterInfo
+public class EnemyInfo : CharacterInfo 
 {
-    
+    public string AIAttackType { get; protected set; }
 
     public override void SetInfo(object data)
     {
@@ -108,6 +138,8 @@ public class EnemyInfo : CharacterInfo
         this.Shot_Duration = d.Shot_Duration;
 
         this.Shot_Speed = d.Shot_Spped;
+
+        AIAttackType = d.AIAttackClass;
 
         CurrHp = Hp;
 
@@ -131,6 +163,9 @@ public class EnemyInfo : CharacterInfo
         this.Shot_Speed = d.Shot_Spped;
 
         CurrHp = Hp;
+
+
+        NotifyObserver();
     }
 
 

@@ -46,6 +46,11 @@ public class GameRoopController : MonoBehaviour, IGameloop
         gameEvents.AddEndEvent(EndEnemyCreate);
     }
 
+    public Transform GetCameraTransform()
+    {
+        return cameraFollowPlayer.transform;
+    }
+
 
     private void Init()
     {

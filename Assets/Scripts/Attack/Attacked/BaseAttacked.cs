@@ -22,14 +22,10 @@ public class BaseAttacked : ISubject
         if (characterInfo.CurrHp - damage > 0)
         {
             characterInfo.CurrHp -= damage;
-
-            Debug.Log($"<color=green>Name: {characterInfo.C_Name } , HP : {characterInfo.CurrHp}/{characterInfo.Hp}</color>");
         }
         else
         {
             characterInfo.CurrHp = 0;
-
-            Debug.Log($"<color=green>Name: {characterInfo.C_Name} // Die </color>");
         }
 
         NotifyObserver();
@@ -46,11 +42,13 @@ public class BaseAttacked : ISubject
         observers.Remove(observer);
     }
 
+
     public void NotifyObserver()
     {
         foreach(var o in observers)
         {
-            o.UpdataData(characterInfo.CurrHp);
+            float value = characterInfo.CurrHp / characterInfo.Hp;
+            o.UpdataData(value);
         }
 
     }

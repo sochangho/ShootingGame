@@ -53,6 +53,7 @@ public partial class Player : Character
             baseAttacked.ResisterObserver(this);
         }
 
+        ObserversResister();
     }
 
     public override void CharacterUpdate()

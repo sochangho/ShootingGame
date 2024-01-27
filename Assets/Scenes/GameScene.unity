@@ -1207,7 +1207,7 @@ MonoBehaviour:
   diffX: 0
   diffY: 14.2
   diffZ: 8.5
-  followSpeed: 0.01
+  followSpeed: 0.1
 --- !u!1 &1759971854
 GameObject:
   m_ObjectHideFlags: 0

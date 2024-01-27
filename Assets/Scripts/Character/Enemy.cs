@@ -102,7 +102,7 @@ public partial class  Enemy : Character
 
         if (baseAttack == null)
         {
-            baseAttack = ClassFactory.GetClassInstanceAIAttack("AIShotAttack");
+            baseAttack = ClassFactory.GetClassInstanceAIAttack(((EnemyInfo)characterInfo).AIAttackType);
             var at = (AICharacterAttack)baseAttack;
             at.Set(this);            
         }
@@ -121,6 +121,8 @@ public partial class  Enemy : Character
 
         }
 
+
+        ObserversResister();
     }
 
     public override void CharacterUpdate()

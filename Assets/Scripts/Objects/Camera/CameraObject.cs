@@ -14,6 +14,9 @@ public abstract class CameraObject : BaseObject
     {
         CameraUpdate();
     }
+
+
+    
     abstract public void CameraUpdate();
  
 }

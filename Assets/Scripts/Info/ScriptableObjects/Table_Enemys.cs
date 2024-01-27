@@ -30,6 +30,9 @@ public class Table_Enemys : ScriptableObject,IData
 
         public float Shot_Spped;
 
+        public string AIAttackClass;
+
+
 
     }
 

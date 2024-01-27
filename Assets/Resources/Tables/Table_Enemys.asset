@@ -19,12 +19,13 @@ MonoBehaviour:
     Defence: 10
     Speed: 2
     Hp: 50
-    Capacity: 5
-    Shot_Id: 1
-    Shot_Duration: 2
-    Shot_Spped: 12
+    Capacity: 20
+    Shot_Id: 0
+    Shot_Duration: 0
+    Shot_Spped: 0
+    AIAttackClass: AIClosedAttack
   - Id: 2
-    Name: TestEnemy2
+    Name: TestEnemy1
     Attack: 20
     Defence: 20
     Speed: 2
@@ -33,13 +34,15 @@ MonoBehaviour:
     Shot_Id: 0
     Shot_Duration: 0
     Shot_Spped: 0
+    AIAttackClass: AIDashAttack
   - Id: 3
-    Name: TestEnemy3
+    Name: TestEnemy1
     Attack: 30
     Defence: 30
     Speed: 2
     Hp: 300
     Capacity: 0
-    Shot_Id: 0
-    Shot_Duration: 0
-    Shot_Spped: 0
+    Shot_Id: 1
+    Shot_Duration: 2
+    Shot_Spped: 10
+    AIAttackClass: AIShotAttack
