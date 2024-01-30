@@ -17,3 +17,15 @@ MonoBehaviour:
     Shot_Attack: 10
     Shot_Name: Shot_Robot
     Shot_Capacity: 5
+  - Id: 2
+    Shot_Attack: 10
+    Shot_Name: WizardShot1
+    Shot_Capacity: 5
+  - Id: 3
+    Shot_Attack: 13
+    Shot_Name: WizardShot2
+    Shot_Capacity: 5
+  - Id: 4
+    Shot_Attack: 15
+    Shot_Name: WizardShot3
+    Shot_Capacity: 5

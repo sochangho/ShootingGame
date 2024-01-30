@@ -47,7 +47,7 @@ public abstract class CharacterInfo : ISubject
     {
         foreach (var o in observers)
         {            
-            o.UpdataData(1.0f);
+            o.UpdateData(1.0f);
         }
 
     }

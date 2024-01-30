@@ -64,7 +64,7 @@ public class ObjectPoolManager : MonoBehaviour , IGameloop
     #endregion
 
     #region End
-    private void Delete()
+    public void Delete()
     {
         for(int i = 0; i < (int)GameObjectType.Size; ++i)
         {
@@ -74,7 +74,7 @@ public class ObjectPoolManager : MonoBehaviour , IGameloop
                 op.AllDelete();
             }
 
-            Dic_ObjectPool[i] = null;
+            //Dic_ObjectPool[i] = null;
         }
 
     }

@@ -16,17 +16,45 @@ MonoBehaviour:
   - Stage: 1
     GameObjectType: 2
     Id: 1
-    Weight: 100
+    Weight: 1000
     Capacity: 10
   - Stage: 1
     GameObjectType: 2
     Id: 2
-    Weight: 50
+    Weight: 700
     Capacity: 10
   - Stage: 1
     GameObjectType: 2
     Id: 3
-    Weight: 30
+    Weight: 500
+    Capacity: 10
+  - Stage: 1
+    GameObjectType: 2
+    Id: 4
+    Weight: 300
+    Capacity: 10
+  - Stage: 1
+    GameObjectType: 2
+    Id: 5
+    Weight: 100
+    Capacity: 10
+  - Stage: 1
+    GameObjectType: 2
+    Id: 6
+    Weight: 200
+    Capacity: 10
+  - Stage: 1
+    GameObjectType: 2
+    Id: 7
+    Weight: 100
+    Capacity: 10
+  - Stage: 1
+    GameObjectType: 2
+    Id: 8
+    Weight: 100
     Capacity: 10
   StageCounts:
   - StageCount: 10
+  Stage:
+  - Stage: 1
+    Time: 10

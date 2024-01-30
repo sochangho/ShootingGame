@@ -8,7 +8,7 @@ public class HpProgress : MonoBehaviour , IObserver
     [SerializeField]
     public Image imageFill;
     
-    public void UpdataData(object data)
+    public void UpdateData(object data)
     {
         float origine =  imageFill.fillAmount;
 

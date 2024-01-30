@@ -48,7 +48,7 @@ public class BaseAttacked : ISubject
         foreach(var o in observers)
         {
             float value = characterInfo.CurrHp / characterInfo.Hp;
-            o.UpdataData(value);
+            o.UpdateData(value);
         }
 
     }

@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public partial class Player : Character
+public partial class Player : Character 
 {
     [SerializeField]
     private Transform shotStartPoint;
 
-    private MoveVirtualJoystick virtualJoystickMove;
+    private MoveVirtualJoystick moveVirtualJoystickMove;
 
     private AttackVirtualJoystick attackVirtualJoystick;
 
@@ -19,8 +19,7 @@ public partial class Player : Character
 
     override public void Created() { 
         base.Created();
-        virtualJoystickMove = FindObjectOfType<MoveVirtualJoystick>();
-        attackVirtualJoystick = FindObjectOfType<AttackVirtualJoystick>();
+  
     }
 
     override public void Destroyed() { base.Destroyed(); }
@@ -74,6 +73,11 @@ public partial class Player : Character
 
     public void MovePlayer()
     {
+        if (!isMove)
+        {
+            return;
+        }
+
         if (isDie)
         {
             return;
@@ -98,15 +102,18 @@ public partial class Player : Character
 
     public override void DieAnimationEvent()
     {
-        
+        NotifyObserver();
     }
 
-    public override void UpdataData(object data)
+    public override void UpdateData(object data)
     {
-        base.UpdataData(data);
+        base.UpdateData(data);
     }
 
     #endregion
+
+
+ 
 
 }
 
@@ -114,6 +121,26 @@ public partial class Player : Character
 
 public partial class Player : Character
 {
+
+    private bool isMove = false;
+
+    public void IsMovePlayer()
+    {
+        isMove = true;
+    }
+
+    public void DontMovePlayer()
+    {
+        isMove = false;
+    }
+
+
+    public void SetJoistick(MoveVirtualJoystick moveVirtualJoystick, AttackVirtualJoystick attackVirtualJoystick)
+    {
+        this.moveVirtualJoystickMove = moveVirtualJoystick;
+        this.attackVirtualJoystick = attackVirtualJoystick;
+    }
+
 
     public void InputKeyMove()
     {
@@ -155,7 +182,7 @@ public partial class Player : Character
             return;
         }
 
-        Vector3 dir = new Vector3(virtualJoystickMove.GetX, 0, virtualJoystickMove.GetY) * -1;
+        Vector3 dir = new Vector3(moveVirtualJoystickMove.GetX, 0, moveVirtualJoystickMove.GetY) * -1;
         transform.position += dir * characterInfo.Speed * Time.deltaTime;
 
     }
@@ -173,7 +200,7 @@ public partial class Player : Character
         {
             if (IsVirtualMoveControl)
             {
-                dir = new Vector3(virtualJoystickMove.GetX, 0, virtualJoystickMove.GetY).normalized * -1;
+                dir = new Vector3(moveVirtualJoystickMove.GetX, 0, moveVirtualJoystickMove.GetY).normalized * -1;
                 PlayerRotation(dir);
             }
         }
@@ -188,5 +215,35 @@ public partial class Player : Character
 
 
 
+
+}
+
+
+
+public partial class Player : Character, ISubject
+{
+
+    List<IObserver> observers = new List<IObserver>();
+
+    #region Interface
+    public void ResisterObserver(IObserver observer)
+    {
+        observers.Add(observer);
+    }
+
+    public void RemoveObserver(IObserver observer)
+    {
+        observers.Remove(observer);
+    }
+
+    public void NotifyObserver()
+    {
+        for(int i = 0; i < observers.Count; ++i)
+        {
+            observers[i].UpdateData(typeof(Player).Name);
+        }
+    }
+
+    #endregion
 
 }

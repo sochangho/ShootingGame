@@ -120,10 +120,12 @@ public abstract class Character : BaseObject , IObserver
 
     virtual public void DieAnimationEvent() { }
 
-    virtual public void UpdataData(object data)
+    virtual public void UpdateData(object data)
     {
         if(characterInfo.CurrHp == 0)
         {
+            Debug.Log("Á×À½");
+
             Die();
         }
 

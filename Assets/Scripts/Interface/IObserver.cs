@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IObserver 
 {
-    void UpdataData(object data);
+    void UpdateData(object data);
 }
 
 
