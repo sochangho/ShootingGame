@@ -1,0 +1,309 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b153bd3c9d69bec4e89181df2c0eee3d, type: 3}
+  m_Name: Table_Item
+  m_EditorClassIdentifier: 
+  Ability:
+  - Id: 1001
+    Name: Attack1
+    Subscript: Attack power increased by 10%
+    Attack: 10
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 400
+    Price: 500
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1002
+    Name: Attack2
+    Subscript: Attack power increased by 20%
+    Attack: 20
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 200
+    Price: 600
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1003
+    Name: Attack3
+    Subscript: Attack power increased by 30%
+    Attack: 30
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 50
+    Price: 700
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1004
+    Name: Defence1
+    Subscript: Defense increased by 10%
+    Attack: 0
+    Defence: 10
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 400
+    Price: 500
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1005
+    Name: Defence2
+    Subscript: Defense increased by 20%
+    Attack: 0
+    Defence: 20
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 200
+    Price: 600
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1006
+    Name: Defence3
+    Subscript: Defense increased by 30%
+    Attack: 0
+    Defence: 30
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 50
+    Price: 700
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1007
+    Name: Speed1
+    Subscript: Movement speed increased by 10%
+    Attack: 0
+    Defence: 0
+    Speed: 10
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 400
+    Price: 500
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1008
+    Name: Speed2
+    Subscript: Movement speed increased by 20%
+    Attack: 0
+    Defence: 0
+    Speed: 20
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 200
+    Price: 600
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1009
+    Name: Speed3
+    Subscript: Movement speed increased by 30%
+    Attack: 0
+    Defence: 0
+    Speed: 30
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 50
+    Price: 700
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1010
+    Name: Bullet Duration1
+    Subscript: Increases bullet duration by 10%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 10
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 400
+    Price: 500
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1011
+    Name: Bullet Duration2
+    Subscript: Increases bullet duration by 20%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 20
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 200
+    Price: 600
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1012
+    Name: Bullet Duration3
+    Subscript: Increases bullet duration by 30%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 30
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 50
+    Price: 700
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1013
+    Name: Bullet Loading Speed 1
+    Subscript: Increases bullet loading speed by 10%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 10
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 400
+    Price: 500
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1014
+    Name: Bullet Loading Speed 2
+    Subscript: Increases bullet loading speed by 20%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 20
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 200
+    Price: 600
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1015
+    Name: Bullet Loading Speed 3
+    Subscript: Increases bullet loading speed by 30%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 30
+    Shot_Count: 0
+    Shot_Spped: 0
+    Weight: 50
+    Price: 700
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1016
+    Name: Bullet Speed 1
+    Subscript: Increases bullet speed by 10%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 10
+    Weight: 400
+    Price: 500
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1017
+    Name: Bullet Speed 2
+    Subscript: Increases bullet speed by 20%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 20
+    Weight: 200
+    Price: 600
+    Duration: 3
+    CalculateClass: PercentCalculate
+  - Id: 1018
+    Name: Bullet Speed 3
+    Subscript: Increases bullet speed by 30%
+    Attack: 0
+    Defence: 0
+    Speed: 0
+    Hp: 0
+    Shot_Duration: 0
+    Shot_LoadSpeed: 0
+    Shot_Count: 0
+    Shot_Spped: 30
+    Weight: 50
+    Price: 700
+    Duration: 3
+    CalculateClass: PercentCalculate
+  Weapons:
+  - Id: 2001
+    Name: Sode1
+    Subscript: Attack 10
+    Price: 100
+    Duration: 4
+    Weight: 100
+    Value: 50
+    WeaponActionClass: AroundCollisionAction
+  - Id: 2002
+    Name: Defence1
+    Subscript: Defence
+    Price: 100
+    Duration: 5
+    Weight: 100
+    Value: 0
+    WeaponActionClass: AroundColltionDefence
+  ItemType:
+  - Id: 1
+    Type: Ability
+    Weight: 100
+  - Id: 2
+    Type: Weapon
+    Weight: 100

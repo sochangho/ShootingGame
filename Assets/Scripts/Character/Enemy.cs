@@ -143,13 +143,19 @@ public partial class  Enemy : Character
 
     public override Vector3 GetShotStartPos()
     {
-        return Vector3.zero;
+        var pos =  this.gameObject.transform.position;
+
+        pos.y += 1;
+
+        return pos;
     }
 
 
 
     public override void Die()
-    {        
+    {
+        
+
         isDie = true;
         CharacterAnimator.SetTrigger("Die");
         
@@ -223,12 +229,16 @@ public partial class Enemy : Character
 
     public event System.Action<Character,Character> EventAttack;
 
+    public event System.Action<Character, Character> EventCollider;
+
+
     private AIDelay aIDelay;
+
+    private bool isCollider = false;
 
     public void SetAIDelay(AIDelay aIDelay)
     {
         this.aIDelay = aIDelay;
-
     }
 
 
@@ -353,14 +363,54 @@ public partial class Enemy : Character
 
     IEnumerator RefreshAI()
     {
-        StopCoroutine(corutineAI);
+        if (corutineAI != null)
+        {
+            StopCoroutine(corutineAI);
+        }
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
 
         enemyState = EnemyState.Idle;
         corutineAI =  StartCoroutine(EnemyAIUpdata());
     }
 
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Player p = other.GetComponent<Player>();
+
+        
+
+        if (p != null && !isCollider)
+        {
+            
+            isCollider = true;
+            EventCollider?.Invoke(player, this);
+
+            var pPos = p.transform.position;
+
+            pPos.y += 1f;
+
+            GameScene.Instance.ObjectPoolManager
+                         .UseObject(GameObjectType.Effect, 3002, pPos);
+        }
+
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+
+        Player p = other.GetComponent<Player>();
+
+        if (p != null && isCollider)
+        {
+            isCollider = false;
+            
+        }
+
+    }
 
 }

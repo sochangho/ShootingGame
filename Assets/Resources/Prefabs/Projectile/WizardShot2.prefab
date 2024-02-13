@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 185451880821630234}
   - component: {fileID: -7194639727958247567}
   - component: {fileID: 1638511483387714101}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: WizardShot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

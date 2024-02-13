@@ -9,6 +9,8 @@ public enum AssetType
 
     Prefab,
 
+    Sprite,
+
     Size
 }
 
@@ -22,14 +24,23 @@ public class ResourceManager
 
     static Dictionary<string, Object>[] dicResources;
 
+
+
     static ResourceManager()
     {
-        dicResources = new Dictionary<string, Object>[(int)AssetType.Size];
-        for(int i = 0; i < (int)AssetType.Size; ++i)
+        if (dicResources == null)
         {
-            dicResources[i] = new Dictionary<string, Object>();
+
+            dicResources = new Dictionary<string, Object>[(int)AssetType.Size];
+            for (int i = 0; i < (int)AssetType.Size; ++i)
+            {
+                dicResources[i] = new Dictionary<string, Object>();
+            }
         }
     }
+
+
+
 
     static public T LoadData<T>() where T : ScriptableObject
     {
@@ -92,18 +103,47 @@ public class ResourceManager
 
 
         return load;
-    }  
+    }
+    
+
+    /// <summary>
+    ///  나중에 아틀라스로 변경
+    /// </summary>
+    /// <param name="resourcespath"></param>
+    /// <returns></returns>
+    static public Sprite SpriteLoad(string resourcespath)
+    {
+        return  Load<Sprite>(AssetType.Sprite, resourcespath);
+    }
+
+ 
+
 
 }
 
 
 public class PathString
 {
+
+
     public const string TABLE = "Resources/Tables";
     public const string PREFAB_PLAYER = "Prefabs/Character/Players";
     public const string PREFAB_PROJECTILE = "Prefabs/Projectile";
     public const string PREFAB_ENEMY = "Prefabs/Character/Enemys";
+    public const string PREFAB_ELEMENTS = "Prefabs/UI/Elements";
+    public const string PREFAB_EFFECT = "Prefabs/Effect";
 
+    public const string PREFABS_ITEM_WEAPON = "Prefabs/Item/Weapon";
+
+    public const string POPUP = "Prefabs/UI/Popup";
+
+    public const string PROGRESS = "Prefabs/UI/Progress";
+
+
+
+    public const string ITEM_SPRITE_ABILITY = "Sprites/Item/Ability";   
+    public const string ITEM_SPRITE_WEAPON = "Sprites/Item/Weapon";
+    public const string ITEM_SPRITE_RECOVERY = "Sprites/Item/Recovery";
 
 }
 

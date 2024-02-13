@@ -19,18 +19,28 @@ public class AIDashAttack : AICharacterAttack
 
         enemy.EventAttack += DashAttackAIState;
 
+        enemy.EventCollider += ColliderAttack;
        
     }
 
-    public override void Attack(Vector3 dir, Vector3 StartPos, Character characterOponent = null, Character character = null)
+    public override void ColliderAttack(Character characterOponent, Character chatacter)
     {
-        if(UtillMath.TwoPointClosed(characterOponent.transform.position, character.transform.position, 0.4f))
+        if (attacking)
         {
-            characterOponent.Attacked(character.characterInfo.Attack);
+            Debug.Log($"<color=green>  Collider Attack </color>");
+            Attack(Vector3.zero, Vector3.zero, characterOponent, chatacter);        
         }
-
     }
-  
+
+
+
+    public override void Attack(Vector3 dir, Vector3 StartPos, Character characterOponent = null, Character character = null)
+    {        
+       
+            characterOponent.Attacked(character.characterInfo.Attack);       
+    }
+
+
     private void DashAttackAIState(Character characterOponent, Character character)
     {
         if (!attacking)
@@ -49,14 +59,11 @@ public class AIDashAttack : AICharacterAttack
          
 
         if (!UtillMath.TwoPointClosed(destiantionPos , character.transform.position, 0.4f ))
-        {
-                      
-            character.transform.position = Vector3.MoveTowards(character.transform.position, destiantionPos, character.characterInfo.Speed * 10 * Time.deltaTime);           
+        {            
+           character.transform.position = Vector3.MoveTowards(character.transform.position, destiantionPos, character.characterInfo.Speed * 10 * Time.deltaTime);           
         }
         else
-        {
-
-            Attack(Vector3.zero, Vector3.zero, characterOponent, character);
+        {            
             attacking = false;
             enemy.AIRefresh();
         }

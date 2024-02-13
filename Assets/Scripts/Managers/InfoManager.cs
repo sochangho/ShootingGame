@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class InfoManager : MonoBehaviourSingletonPersistent<InfoManager>
 {
-
-    
-
     public Test Info_Test { get; private set; } 
     public Table_Enemys TableEnemys { get; private set; }
     public Table_Stage TableStage { get; private set; }
     public Table_Player TablePlayer { get; private set; }
     public Table_Shot TableShot { get; private set; }
+    public Table_Item TableItem { get; private set; }
 
-
+    public Table_Effect TableEffect { get; private set; }
 
     public override void Awake()
     {
         base.Awake();
-        LoadDatas();
+       // LoadDatas();
     }
 
     public void LoadDatas()
@@ -28,7 +26,6 @@ public class InfoManager : MonoBehaviourSingletonPersistent<InfoManager>
        Info_Test.Set();
 
        //------------------------------------------- 
-
        TableEnemys = ResourceManager.LoadData<Table_Enemys>();
        TableEnemys.Set();
 
@@ -40,6 +37,12 @@ public class InfoManager : MonoBehaviourSingletonPersistent<InfoManager>
 
        TableShot = ResourceManager.LoadData<Table_Shot>();
        TableShot.Set();
+
+       TableItem = ResourceManager.LoadData<Table_Item>();
+       TableItem.Set();
+
+       TableEffect = ResourceManager.LoadData<Table_Effect>();
+       TableEffect.Set();
 
     }
 

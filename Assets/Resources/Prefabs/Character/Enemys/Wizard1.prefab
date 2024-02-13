@@ -73,7 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterStateUI: {fileID: 7570878190366725395}
   CharacterAnimator: {fileID: 6852501432688867405}
-  detectDistance: 15
+  detectDistance: 50
   attackDistacne: 10
 --- !u!95 &6852501432688867405
 Animator:
@@ -104,7 +104,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4700018285652426086}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.5746996, y: 3.1756217, z: 1.9078237}
@@ -2663,6 +2663,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 393182651824046932}
     m_Modifications:
+    - target: {fileID: 5701431410290561396, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
+      propertyPath: hpProgress
+      value: 
+      objectReference: {fileID: 8488552287187563407}
+    - target: {fileID: 5787459337490517368, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8903513324853633801, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8903513324853633802, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -2755,6 +2767,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterStateUI
       objectReference: {fileID: 0}
+    - target: {fileID: 8903513326102815430, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
 --- !u!224 &6737673119488255859 stripped
@@ -2771,5 +2787,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 451b8312c0742b945989c14f3eb9900a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8488552287187563407 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6035880576420214760, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
+  m_PrefabInstance: {fileID: 2742309762452423783}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96ae7c3d70cb2ca4bbd54155609444f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

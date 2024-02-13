@@ -19,7 +19,7 @@ MonoBehaviour:
     Speed: 10
     Hp: 1000
     Shot_Duration: 2
-    Shot_LoadSpeed: 5
+    Shot_LoadSpeed: 0.2
     Shot_Count: 10
     Shot_Id: 1
     CharacterName: Robot

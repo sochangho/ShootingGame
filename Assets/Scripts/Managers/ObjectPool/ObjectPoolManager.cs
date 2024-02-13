@@ -13,6 +13,8 @@ public enum GameObjectType
 
     Reward = 3,
 
+    Effect = 4,
+
     Size
 }
 
@@ -204,7 +206,13 @@ public class ObjectPool
 
                break;
             }
-
+            case GameObjectType.Effect:
+            {
+                    var data = InfoManager.Instance.TableEffect.GetInfoById(id);
+                    path = $"{PathString.PREFAB_EFFECT}/{data.Name}";
+                    Capacity = data.Capacity;
+                    break;
+            }
 
         }
 

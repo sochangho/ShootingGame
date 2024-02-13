@@ -28,6 +28,12 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
     [SerializeField]
     private AttackVirtualJoystick attackVirtualJoystick;
 
+    [SerializeField]
+    private ItemGameUI itemGameUI;
+
+    [SerializeField]
+    private StartUI startUI;
+
 
     private List<KeyValuePair<float, int>> enemySpwanData; // 소환될 몬스터 확률 // 가중치 , 적 id
 
@@ -92,20 +98,25 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
 
         player.transform.position = Vector3.zero;
 
+        EnemyCreat();
 
         //카운트 시작
         //카운트 종료  ,조이스틱 활성화 및 움직이게하기 
 
         StartCoroutine(StartCountRoutine
-            (()=> { 
-            // 게임 시작 ui 메서드 호출
-            //{구현}
+            (()=> {
+                // 게임 시작 ui 메서드 호출
+                //{구현}
+
+                startUI.gameObject.SetActive(true);
             
             },
-            ()=> { 
-            // 게임 카운트 ui 메서드 호출 
-            //{구현}
-            
+            (count)=> {
+                // 게임 카운트 ui 메서드 호출 
+                //{구현}
+
+                startUI.CountShow(count);
+
             }, 
             () => {
 
@@ -123,6 +134,8 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
                 var info = InfoManager.Instance.TableStage.GetStageUniqeInfo(curStage);
 
                 gameProgress.GameStart(info.Time);
+
+                startUI.gameObject.SetActive(false);
                
             }));
 
@@ -144,6 +157,10 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
         //시간 체크 종료 
         gameProgress.GameEnd();
 
+        //턴 종료
+
+        PlayerEndWave();
+
         //몬스터 삭제
         EndEnemyCreate();
         StartCoroutine(Delay(1f, RewardStage));
@@ -159,6 +176,7 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
     public void ResultGame()
     {
         gameProgress.GameEnd();
+        UIManager.Instance.OpenPopup<ResultPopup>(() =>{});
     }
 
 
@@ -182,10 +200,9 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
 
 
         //보상창 출력
-
         //선택 
 
-
+        NextStage();
 
     }
 
@@ -205,13 +222,39 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
         }
         else
         {
-            StartStage();
+           
+            UIManager.Instance.OpenPopup<RewardPopup>(
+            () =>
+            {
+                UIManager.Instance.ClosePopup<RewardPopup>(null);
+                StartStage();
+            });
+
         }      
     }
 
-#endregion
+    #endregion
 
+    #region Item
 
+    public void ItemAdd(Equipment equipment)
+    {
+        player.UseItem(equipment);
+    }
+
+    public void RemoveItem(int id)
+    {
+        player.UnUseItem(id);
+    }
+
+    public void PlayerEndWave()
+    {
+        player.WaveEnd();
+    }
+
+    #endregion
+
+    #region Get
 
     public Transform GetCameraTransform()
     {
@@ -222,6 +265,14 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
     {
         return InfoManager.Instance.TableStage.CurrentStage(CurrentStageIndex);
     }
+
+    public ItemGameUI GetItemGameUI()
+    {
+        return itemGameUI;
+    }
+
+    #endregion
+
 
 
     private void Init()
@@ -249,7 +300,7 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
 
     private void EnemyCreat()
     {
-
+        Debug.Log($"<color=magenta> 현재 스테이지 {GetCurrentStage()} </color>");
 
         if (enemySpwanData == null)
         {
@@ -262,7 +313,7 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
         }
 
 
-        var currEnemyList = InfoManager.Instance.TableStage.GetStageInfos(1, (int)GameObjectType.Enemy);
+        var currEnemyList = InfoManager.Instance.TableStage.GetStageInfos(GetCurrentStage(), (int)GameObjectType.Enemy);
 
         for (int i = 0; i < currEnemyList.Count; ++i)
         {
@@ -335,22 +386,33 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(5f);
 
+
+        List<KeyValuePair<float, bool>> list = new List<KeyValuePair<float, bool>>();
+
+        list.Add(new KeyValuePair<float, bool>(30, true));
+        list.Add(new KeyValuePair<float, bool>(70, false));
+
         while (!isGameEnd)
         {
-            var point =  RandomManager.RandomDraw<Transform>(spwanPoints);
+           
+            for(int i = 0; i < spwanPoints.Count; ++i)
+            {
+               bool value=  RandomManager.CumulativeProbability<bool>(list);
 
-            Vector3 spwanPosition = point.position; // 생성 위치 
+                if (value)
+                {
+                    Vector3 spwanPosition = spwanPoints[i].position; // 생성 위치 
 
-            int enemyid = RandomManager.CumulativeProbability<int>(enemySpwanData);
-
-            GetEnemy(enemyid, spwanPosition);
-
+                    int enemyid = RandomManager.CumulativeProbability<int>(enemySpwanData);
+                    GetEnemy(enemyid, spwanPosition);
+                }
+            }
             yield return waitForSeconds;
         }
 
     }
     
-    IEnumerator StartCountRoutine(System.Action startaAtion = null,System.Action progressAction = null, System.Action finishAction = null)   
+    IEnumerator StartCountRoutine(System.Action startaAtion = null,System.Action<string> progressAction = null, System.Action finishAction = null)   
     {
 
         WaitForSeconds waitForSeconds = new WaitForSeconds(1f);
@@ -361,11 +423,11 @@ public class GameRoopController : MonoBehaviour, IGameloop ,IObserver
 
         for (int i = 0; i < 3; ++i)
         {
+                      
+            int count = i + 1;
+            progressAction?.Invoke(count.ToString());
+
             yield return waitForSeconds;
-
-            Debug.Log($"<color=magenta> 카운트 : {i+1} </color>");
-
-            progressAction?.Invoke();
         }
 
         finishAction?.Invoke();

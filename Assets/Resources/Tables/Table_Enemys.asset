@@ -53,7 +53,7 @@ MonoBehaviour:
     Speed: 3
     Hp: 100
     Capacity: 10
-    Shot_Id: 3
+    Shot_Id: 2
     Shot_Duration: 3
     Shot_Spped: 10
     AIAttackClass: AIShotAttack
@@ -64,7 +64,7 @@ MonoBehaviour:
     Speed: 3
     Hp: 100
     Capacity: 10
-    Shot_Id: 4
+    Shot_Id: 2
     Shot_Duration: 3
     Shot_Spped: 10
     AIAttackClass: AIShotAttack
@@ -75,10 +75,10 @@ MonoBehaviour:
     Speed: 2
     Hp: 300
     Capacity: 3
-    Shot_Id: 0
-    Shot_Duration: 0
-    Shot_Spped: 0
-    AIAttackClass: AIDashAttack
+    Shot_Id: 3
+    Shot_Duration: 4
+    Shot_Spped: 15
+    AIAttackClass: AIShotAttack
   - Id: 7
     Name: MetalonPurple
     Attack: 70
@@ -86,10 +86,10 @@ MonoBehaviour:
     Speed: 2
     Hp: 300
     Capacity: 3
-    Shot_Id: 0
-    Shot_Duration: 0
-    Shot_Spped: 0
-    AIAttackClass: AIDashAttack
+    Shot_Id: 4
+    Shot_Duration: 4
+    Shot_Spped: 15
+    AIAttackClass: AIShotAttack
   - Id: 8
     Name: MetalonRed
     Attack: 70

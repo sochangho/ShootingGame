@@ -10,9 +10,17 @@ public class Test : ScriptableObject, IData
 
     public Dictionary<int, TestEntity> data { get; private set; }
 
+    private bool isLoaded = false;
 
 	public void Set()
     {
+        if (isLoaded)
+        {
+            return;
+        }
+
+        isLoaded = true;
+
         data = new Dictionary<int, TestEntity>();
 
         foreach(var e in Sheet1)

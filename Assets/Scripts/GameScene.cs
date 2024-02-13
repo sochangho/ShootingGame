@@ -14,7 +14,17 @@ public class GameScene : MonoBehaviourSingletonPersistent<GameScene> , IGameloop
     public ObjectPoolManager ObjectPoolManager;
     public GameRoopController GameRoopController;
 
-    
+    private int item_instanceId = 0;
+
+    public int ItemInstanceId
+    {
+        get
+        {
+            item_instanceId++;
+            return item_instanceId;
+        }
+    }
+
 
     public override void Awake()
     {
@@ -29,6 +39,8 @@ public class GameScene : MonoBehaviourSingletonPersistent<GameScene> , IGameloop
 
         StartCoroutine(DelayRoutin(() =>
         {
+            InfoManager.Instance.LoadDatas();
+
             ObjectPoolManager.GameStart();
             GameRoopController.GameStart();
 

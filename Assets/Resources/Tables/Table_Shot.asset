@@ -15,17 +15,25 @@ MonoBehaviour:
   Shots:
   - Id: 1
     Shot_Attack: 10
-    Shot_Name: Shot_Robot
+    Shot_Name: ShotRobot
+    Flash: 1001
+    Hit: 2001
     Shot_Capacity: 5
   - Id: 2
     Shot_Attack: 10
-    Shot_Name: WizardShot1
+    Shot_Name: WizardShot
+    Flash: 1002
+    Hit: 2002
     Shot_Capacity: 5
   - Id: 3
     Shot_Attack: 13
-    Shot_Name: WizardShot2
+    Shot_Name: Projectile6
+    Flash: 1003
+    Hit: 2003
     Shot_Capacity: 5
   - Id: 4
     Shot_Attack: 15
-    Shot_Name: WizardShot3
+    Shot_Name: Projectile2
+    Flash: 1004
+    Hit: 2004
     Shot_Capacity: 5

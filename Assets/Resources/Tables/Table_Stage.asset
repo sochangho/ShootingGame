@@ -17,44 +17,83 @@ MonoBehaviour:
     GameObjectType: 2
     Id: 1
     Weight: 1000
-    Capacity: 10
-  - Stage: 1
+    Capacity: 50
+  - Stage: 2
+    GameObjectType: 2
+    Id: 1
+    Weight: 700
+    Capacity: 50
+  - Stage: 2
+    GameObjectType: 2
+    Id: 2
+    Weight: 200
+    Capacity: 30
+  - Stage: 3
+    GameObjectType: 2
+    Id: 1
+    Weight: 1000
+    Capacity: 30
+  - Stage: 3
     GameObjectType: 2
     Id: 2
     Weight: 700
-    Capacity: 10
-  - Stage: 1
+    Capacity: 30
+  - Stage: 3
+    GameObjectType: 2
+    Id: 3
+    Weight: 300
+    Capacity: 20
+  - Stage: 4
     GameObjectType: 2
     Id: 3
     Weight: 500
-    Capacity: 10
-  - Stage: 1
+    Capacity: 20
+  - Stage: 4
     GameObjectType: 2
     Id: 4
-    Weight: 300
-    Capacity: 10
-  - Stage: 1
+    Weight: 500
+    Capacity: 20
+  - Stage: 5
+    GameObjectType: 2
+    Id: 4
+    Weight: 500
+    Capacity: 20
+  - Stage: 5
     GameObjectType: 2
     Id: 5
-    Weight: 100
-    Capacity: 10
-  - Stage: 1
+    Weight: 500
+    Capacity: 20
+  - Stage: 5
     GameObjectType: 2
     Id: 6
-    Weight: 200
+    Weight: 500
     Capacity: 10
-  - Stage: 1
+  - Stage: 7
     GameObjectType: 2
     Id: 7
-    Weight: 100
-    Capacity: 10
-  - Stage: 1
+    Weight: 500
+    Capacity: 20
+  - Stage: 8
     GameObjectType: 2
     Id: 8
-    Weight: 100
-    Capacity: 10
+    Weight: 500
+    Capacity: 20
   StageCounts:
   - StageCount: 10
   Stage:
   - Stage: 1
-    Time: 10
+    Time: 60
+  - Stage: 2
+    Time: 60
+  - Stage: 3
+    Time: 60
+  - Stage: 4
+    Time: 60
+  - Stage: 5
+    Time: 60
+  - Stage: 6
+    Time: 60
+  - Stage: 7
+    Time: 60
+  - Stage: 8
+    Time: 60

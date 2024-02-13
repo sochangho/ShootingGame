@@ -17,6 +17,10 @@ public class Table_Shot : ScriptableObject ,IData
         
         public string Shot_Name;
 
+        public int Flash; 
+
+        public int Hit;
+
         public int Shot_Capacity;
     }
 
@@ -24,8 +28,18 @@ public class Table_Shot : ScriptableObject ,IData
 
     private Dictionary<int, ShotInfo> dic_Shots;
 
+    private bool isLoaded = false;
+
     public void Set()
     {
+        if (isLoaded)
+        {
+            return;
+        }
+
+        isLoaded = true;
+
+
         dic_Shots = new Dictionary<int, ShotInfo>();
 
         for(int i = 0; i < Shots.Count; ++i)

@@ -14,6 +14,12 @@ public class AIShotAttack : AICharacterAttack
 
     }
 
+    public override void ColliderAttack(Character characterOponent, Character chatacter)
+    {
+        
+    }
+
+
     public override void Attack(Vector3 dir, Vector3 StartPos, Character characterOponent = null, Character character = null)
     {
 
@@ -23,7 +29,7 @@ public class AIShotAttack : AICharacterAttack
 
         character.transform.LookAt(characterOponent.transform);
 
-        var go = GameScene.Instance.ObjectPoolManager.UseObject(GameObjectType.Projectile, enemy.characterInfo.Shot_Id, character.transform.position);
+        var go = GameScene.Instance.ObjectPoolManager.UseObject(GameObjectType.Projectile, enemy.characterInfo.Shot_Id, StartPos);
 
         if (go == null)
         {
@@ -31,6 +37,11 @@ public class AIShotAttack : AICharacterAttack
         }
 
         Projectile projectile = go.GetComponent<Projectile>();
+
+        var info = InfoManager.Instance.TableShot.GetInfoById(enemy.characterInfo.Shot_Id);
+
+        projectile.FlashId = info.Flash;
+        projectile.HitId = info.Hit;
 
         projectile.Fire(enemy.characterInfo, dir);
 

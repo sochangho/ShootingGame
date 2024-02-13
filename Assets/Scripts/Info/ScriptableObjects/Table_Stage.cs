@@ -44,9 +44,18 @@ public class Table_Stage : ScriptableObject
 
 	private List<int> stageNumbers;
 
+	private bool isLoaded = false;
+
 	//·£´ý ¿¢¼¼½º·Î Á¢±Ù
 	public void Set()
 	{
+		if (isLoaded)
+		{
+			return;
+		}
+
+		isLoaded = true;
+
 		stageNumbers = new List<int>();
 
 		data = new List<StageInfo>[StageCounts[0].StageCount, (int)GameObjectType.Size];

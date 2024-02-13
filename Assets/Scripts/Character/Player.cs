@@ -7,11 +7,21 @@ public partial class Player : Character
     [SerializeField]
     private Transform shotStartPoint;
 
+    [SerializeField]
+    private ShotProgress shotProgress;
+
     private MoveVirtualJoystick moveVirtualJoystickMove;
 
     private AttackVirtualJoystick attackVirtualJoystick;
 
-    
+    private BoxCollider collider;
+
+    public PlayerInfo playerInfo { get; protected set; }
+
+    private bool isChaging = false;
+
+    private bool isAttacking = false;
+
     public bool IsVirtualMoveControl {get;set;}
 
 
@@ -40,6 +50,7 @@ public partial class Player : Character
         if (characterInfo == null)
         {
             characterInfo = new PlayerInfo();
+            playerInfo = (PlayerInfo)characterInfo;
             characterInfo.SetInfo(d);
         }
         if (baseAttack == null)
@@ -51,6 +62,8 @@ public partial class Player : Character
             baseAttacked = new BaseAttacked(characterInfo);
             baseAttacked.ResisterObserver(this);
         }
+
+        shotProgress.Charge(playerInfo.Shot_Count);
 
         ObserversResister();
     }
@@ -73,6 +86,8 @@ public partial class Player : Character
 
     public void MovePlayer()
     {
+        UpdateItem();
+
         if (!isMove)
         {
             return;
@@ -90,10 +105,56 @@ public partial class Player : Character
         
         VirtualJoystickMove();
         VirtualJoystickRotation();
+
+
+        
     }
 
 
-    
+    public override void Attack()
+    {
+        if (!isMove)
+        {
+            return;
+        }
+
+        if (isDie)
+        {
+            return;
+        }
+
+
+        if (isChaging)
+        {
+            Debug.Log("공격할 수 없다.");
+            return;
+        }
+
+
+        if(playerInfo == null)
+        {
+            playerInfo = (PlayerInfo)characterInfo;
+        }
+
+        
+
+        shotProgress.Use();
+
+        base.Attack();
+
+        if (!playerInfo.ShotDecrease())
+        {
+            isChaging = true;
+            shotProgress.Recharge(playerInfo, () =>
+            {
+                playerInfo.ShotCharge();
+                isChaging = false;
+            });
+        }
+
+    }
+
+
     public override void Die()
     {
         isDie = true;
@@ -103,6 +164,7 @@ public partial class Player : Character
     public override void DieAnimationEvent()
     {
         NotifyObserver();
+        this.gameObject.SetActive(false);
     }
 
     public override void UpdateData(object data)
@@ -113,7 +175,7 @@ public partial class Player : Character
     #endregion
 
 
- 
+
 
 }
 
@@ -152,6 +214,9 @@ public partial class Player : Character
         Vector3 dir = new Vector3(h, 0, v) * -1;
         dir = dir.normalized;
 
+        if (CheackHitObjects(dir))
+            dir = Vector3.zero;
+
         if (dir != Vector3.zero)
         {
 
@@ -183,6 +248,10 @@ public partial class Player : Character
         }
 
         Vector3 dir = new Vector3(moveVirtualJoystickMove.GetX, 0, moveVirtualJoystickMove.GetY) * -1;
+
+        if (CheackHitObjects(dir))
+            dir = Vector3.zero;
+
         transform.position += dir * characterInfo.Speed * Time.deltaTime;
 
     }
@@ -212,8 +281,135 @@ public partial class Player : Character
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 10);
     }
 
+    private bool CheackHitObjects(Vector3 movement)
+    {
+
+        if(collider == null)
+        {
+           collider =  GetComponent<BoxCollider>();
+        }
+
+        //movement = transform.TransformDirection(movement);
+        // scope로 ray 충돌을 확인할 범위를 지정할 수 있다.
+        float scope = 1f;
+
+        // 플레이어의 머리, 가슴, 발 총 3군데에서 ray를 쏜다.
+        List<Vector3> rayPositions = new List<Vector3>();
+        rayPositions.Add(transform.position + Vector3.up * 0.1f);
+        rayPositions.Add(transform.position + Vector3.up * collider.size.y * 0.5f);
+        rayPositions.Add(transform.position + Vector3.up * collider.size.y);
+
+        // 디버깅을 위해 ray를 화면에 그린다.
+        foreach (Vector3 pos in rayPositions)
+        {
+            Debug.DrawRay(pos, movement * scope, Color.red);
+        }
+
+        // ray와 벽의 충돌을 확인한다.
+        foreach (Vector3 pos in rayPositions)
+        {
+            if (Physics.Raycast(pos, movement, out RaycastHit hit, scope))
+            {
+                if (hit.collider.CompareTag("Objects"))
+                    return true;
+            }
+        }
+        return false;
+
+    }
 
 
+
+}
+
+
+public partial class Player : Character
+{
+
+   private List<Equipment> equipments = new List<Equipment>();
+
+
+   
+
+   public void UseItem(Equipment equipment)
+   {
+        equipments.Add(equipment);
+        equipment.UseItem();
+
+        WeaponReposiotion("아이템 추가");
+
+
+   }
+   
+   public void UnUseItem(int id)
+   {
+        var e = equipments.Find(x => x.Item_Id == id);
+
+        if (e != null)
+        {          
+            equipments.Remove(e);
+            WeaponReposiotion("아이템 삭제");
+        }
+
+        //WeaponReposiotion("아이템 삭제");
+   }
+   
+   public void WaveEnd()
+   {
+      for(int i = equipments.Count - 1; i >= 0; --i)
+      {
+            equipments[i].EndWaveItemUpdateEvent();
+            equipments[i].WaveEnd();
+            
+      }
+    }
+
+   public void UpdateItem()
+   {
+
+        foreach(var e in equipments)
+        {
+            e.UpdateItem();
+        }
+
+   }
+
+    public void WeaponReposiotion(string txt)
+    {
+        List<Weapon> wList = new List<Weapon>(); 
+
+        foreach(var e in equipments)
+        {
+            if(e is Weapon)
+            {
+                var w = e as Weapon;
+
+                wList.Add(w);
+            }
+        }
+
+
+        Debug.Log($"<color=green> 무기  {txt}  , 총 무기 개수 {wList.Count} </color>");
+
+        if(wList.Count == 0)
+        {
+            return;
+        }
+
+
+        float angle = 360 / wList.Count;
+
+        float sumAngle = 0;
+
+        foreach(var w in wList)
+        {
+            Debug.Log($" 회전 각도  {sumAngle}");
+            w.WeaponReposiotion(sumAngle);
+            sumAngle += angle;
+        }
+
+
+    }
 
 
 }

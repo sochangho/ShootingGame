@@ -17,6 +17,10 @@ public class Projectile : BaseObject
 
     private GameObjectType launchSubjectType;
 
+    public int FlashId { get; set; }
+
+    public int HitId { get; set; }
+
 
     override public void Created()
     {
@@ -44,6 +48,7 @@ public class Projectile : BaseObject
         }
 
 
+        GameScene.Instance.ObjectPoolManager.UseObject(GameObjectType.Effect, FlashId, this.transform.position);
 
         coroutine = StartCoroutine(FireRoutin(direction));
 
@@ -58,16 +63,14 @@ public class Projectile : BaseObject
 
             StopCoroutine(coroutine);
 
-            if (objectPooling == null)
-            {
-                objectPooling = GetComponent<ObjectPooling>();
-            }
+          
+            UnUseProjectile();
 
-            GameScene.Instance.ObjectPoolManager.UnUseObject(objectPooling);
             other.GetComponent<Character>().Attacked(attack);
             
         }
 
+        
     }
 
 
@@ -77,7 +80,21 @@ public class Projectile : BaseObject
         Attack(other);
     }
 
+    public GameObjectType GetSubjectTypeProjectile()
+    {
+        return launchSubjectType;
+    }
+    public void UnUseProjectile()
+    {
+        if (objectPooling == null)
+        {
+            objectPooling = GetComponent<ObjectPooling>();
+        }
 
+        GameScene.Instance.ObjectPoolManager.UnUseObject(objectPooling);
+        GameScene.Instance.ObjectPoolManager.UseObject(GameObjectType.Effect, HitId, this.transform.position);
+
+    }
 
     IEnumerator FireRoutin(Vector3 direction)
     {
@@ -92,11 +109,6 @@ public class Projectile : BaseObject
             yield return null;
         }
 
-        if (objectPooling == null)
-        {
-            objectPooling = GetComponent<ObjectPooling>();
-        }
-
-        GameScene.Instance.ObjectPoolManager.UnUseObject(objectPooling);
+        UnUseProjectile();
     }
 }

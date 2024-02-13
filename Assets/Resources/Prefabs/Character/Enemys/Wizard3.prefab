@@ -73,7 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterStateUI: {fileID: 7570878190366725395}
   CharacterAnimator: {fileID: 6852501432688867405}
-  detectDistance: 20
+  detectDistance: 50
   attackDistacne: 15
 --- !u!95 &6852501432688867405
 Animator:
@@ -104,7 +104,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4700018285652426086}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.2787094, y: 1.9650261, z: 1.2501831}
@@ -2663,9 +2663,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 393182651824046932}
     m_Modifications:
-    - target: {fileID: 8903513324853633802, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
+    - target: {fileID: 5787459337808927199, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5787459337808927199, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8903513324853633812, guid: 1c37fd4dc5ee0044dbf7484106a48a74, type: 3}
       propertyPath: m_Pivot.x

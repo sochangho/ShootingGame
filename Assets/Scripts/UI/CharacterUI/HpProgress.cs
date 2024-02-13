@@ -1,18 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HpProgress : MonoBehaviour , IObserver
 {
+
     [SerializeField]
-    public Image imageFill;
-    
+    private Slider slider_hp;
+
+    [SerializeField]
+    private TextMeshProUGUI text_hp; 
+
     public void UpdateData(object data)
     {
-        float origine =  imageFill.fillAmount;
+        float origine = (float)data;
 
-        imageFill.fillAmount = (float)data;
+        slider_hp.value = origine;
+
+        text_hp.text = origine.ToString();
+       
     }
 
  

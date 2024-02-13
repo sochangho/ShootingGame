@@ -33,8 +33,17 @@ public class Table_Player : ScriptableObject , IData
 
 	private Dictionary<int, CharacterPlayerInfo> dic_playerCharacter;
 
+	private bool isLoaded = false;
+
 	public void Set()
     {
+		if (isLoaded)
+		{
+			return;
+		}
+
+		isLoaded = true;
+
 		dic_playerCharacter = new Dictionary<int, CharacterPlayerInfo>();
 	 
 		for(int i = 0; i < PlayerCharacters.Count; ++i)

@@ -59,13 +59,23 @@ public abstract class CharacterInfo : ISubject
 
 public class PlayerInfo : CharacterInfo 
 {
- 
-   
+
+    private int count;
+    
     public float Shot_LoadSpeed { get; protected set; }
 
-    public int Shot_Count { get; protected set; }
+    public int Shot_Count { get { return count; }
+        protected set {
 
-    
+            count = value;
+
+            //Debug.Log($"<color=magenta> PlayerInfo ÃÑ¾Ë °³¼ö {count} </color>");
+        
+        
+        } }
+
+    protected int shotCountOrigin;
+
 
     public override void SetInfo(object data)
     {
@@ -89,6 +99,7 @@ public class PlayerInfo : CharacterInfo
 
         CurrHp = Hp;
 
+        shotCountOrigin = d.Shot_Count;
     }
 
     public override void RefreshInfo()
@@ -110,9 +121,42 @@ public class PlayerInfo : CharacterInfo
         NotifyObserver();
     }
 
+    public bool ShotDecrease()
+    {
+        Shot_Count--;
 
+        Debug.Log($"<color=magenta> ÃÑ¾Ë °³¼ö {Shot_Count} <color>");
 
+        if (Shot_Count > 0)
+        {            
+            return true;
+        }
+        else
+        {
+            Shot_Count = 0;
+        }
 
+       
+        return false;
+    }
+
+    public void ShotCharge()
+    {
+        
+        Shot_Count = shotCountOrigin;
+        Debug.Log($"<color=magenta> ÃæÀü!!!!!!!! {Shot_Count} <color>");
+    }
+
+    public void PlayerAbilitySet(PlayerAbilityValue value)
+    {
+        Attack = value.Attack;
+        Defence = value.Defence;
+        Speed = value.Speed;
+        Shot_Duration = value.Shot_Duration;
+        Shot_LoadSpeed = value.Shot_LoadSpeed;
+        Shot_Speed = value.Shot_Speed;
+        //Shot_Count = value.Shot_Count;
+    }
 
 }
 
@@ -168,5 +212,19 @@ public class EnemyInfo : CharacterInfo
         NotifyObserver();
     }
 
+
+}
+
+
+
+public struct PlayerAbilityValue
+{
+    public float Attack;
+    public float Defence;
+    public float Speed;
+    public float Shot_Duration;
+    public float Shot_LoadSpeed;
+    public float Shot_Speed;
+    public int Shot_Count;
 
 }

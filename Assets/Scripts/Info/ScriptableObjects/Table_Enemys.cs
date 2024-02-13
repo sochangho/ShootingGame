@@ -40,9 +40,17 @@ public class Table_Enemys : ScriptableObject,IData
 
     public Dictionary<int, EnemyData> data { get; private set; }
 
-
+    private bool isLoaded = false;
     public void Set()
     {
+        if (isLoaded)
+        {
+            return;
+        }
+
+        isLoaded = true;
+
+
         data = new Dictionary<int, EnemyData>();
 
         foreach (var e in Enemys)

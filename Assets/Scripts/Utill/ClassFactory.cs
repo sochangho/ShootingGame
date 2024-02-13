@@ -33,5 +33,54 @@ public class ClassFactory
         return at;
     }
 
+    public static AbilityCalculate GetClassInstanceAbilityCalculate(string className)
+    {
+        if (assembly == null)
+        {
+            assembly = Assembly.GetExecutingAssembly();
+        }
+
+        System.Type t = assembly.GetType(className);
+
+
+        object obj = System.Activator.CreateInstance(t);
+
+        if (obj == null)
+        {
+            Debug.LogError($" No Exit className {className}");
+            return null;
+        }
+
+        var c = (obj as AbilityCalculate);
+
+        return c;
+    }
+
+
+    public static WeaponAction GetClassInstanceWeaponActon(string className)
+    {
+        if (assembly == null)
+        {
+            assembly = Assembly.GetExecutingAssembly();
+        }
+
+        System.Type t = assembly.GetType(className);
+
+
+        object obj = System.Activator.CreateInstance(t);
+
+        if (obj == null)
+        {
+            Debug.LogError($" No Exit className {className}");
+            return null;
+        }
+
+        var c = (obj as WeaponAction);
+
+        return c;
+
+
+    }
+
 
 }
