@@ -1,2 +1,2 @@
 # ShootingGame
-Naver My Box : http://naver.me/5pHBlc6N
+Naver My Box pdf : http://naver.me/5pHBlc6N
